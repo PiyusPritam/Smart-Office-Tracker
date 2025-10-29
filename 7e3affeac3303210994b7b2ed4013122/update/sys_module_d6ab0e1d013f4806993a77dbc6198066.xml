@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_module">
+    <sys_module action="INSERT_OR_UPDATE">
+        <content><![CDATA[import { gs, GlideRecord, GlideDateTime } from '@servicenow/glide';
+
+export function calculateSessionDuration(current, previous) {
+    try {
+        // Calculate session duration when logout_time is set
+        if (current.logout_time && current.login_time) {
+            const loginTime = new GlideDateTime(current.login_time);
+            const logoutTime = new GlideDateTime(current.logout_time);
+            
+            // Calculate difference in minutes
+            const durationMs = logoutTime.getNumericValue() - loginTime.getNumericValue();
+            const durationMinutes = Math.round(durationMs / (1000 * 60));
+            
+            current.setValue('session_duration', durationMinutes);
+        }
+    } catch (error) {
+        gs.error('Error calculating session duration: ' + error.message);
+    }
+}
+
+export function updateDailySummary(userId, date) {
+    try {
+        if (!userId || !date) return;
+        
+        // Find or create daily summary record
+        const summaryGr = new GlideRecord('x_1599224_smart_of_daily_summary');
+        summaryGr.addQuery('user', userId);
+        summaryGr.addQuery('date', date);
+        summaryGr.query();
+        
+        let isNew = false;
+        if (!summaryGr.next()) {
+            summaryGr.initialize();
+            summaryGr.setValue('user', userId);
+            summaryGr.setValue('date', date);
+            isNew = true;
+        }
+        
+        // Get all sessions for this user and date
+        const sessionGr = new GlideRecord('x_1599224_smart_of_user_session');
+        sessionGr.addQuery('user', userId);
+        sessionGr.addQuery('login_time', 'STARTSWITH', date);
+        sessionGr.orderBy('login_time');
+        sessionGr.query();
+        
+        let firstLogin = null;
+        let lastLogout = null;
+        let totalBreakMinutes = 0;
+        let breakCount = 0;
+        let totalWorkMinutes = 0;
+        
+        while (sessionGr.next()) {
+            const loginTime = sessionGr.getValue('login_time');
+            const logoutTime = sessionGr.getValue('logout_time');
+            const isBreak = sessionGr.getValue('is_break') == 'true';
+            const sessionDuration = parseInt(sessionGr.getValue('session_duration') || '0');
+            
+            if (!firstLogin) {
+                firstLogin = loginTime;
+            }
+            
+            if (logoutTime) {
+                lastLogout = logoutTime;
+            }
+            
+            if (isBreak && sessionDuration > 0) {
+                totalBreakMinutes += sessionDuration;
+                breakCount++;
+            } else if (!isBreak && sessionDuration > 0) {
+                totalWorkMinutes += sessionDuration;
+            }
+        }
+        
+        // Update summary fields
+        if (firstLogin) summaryGr.setValue('first_login', firstLogin);
+        if (lastLogout) summaryGr.setValue('last_logout', lastLogout);
+        
+        // Calculate total hours
+        let totalHours = 0;
+        if (firstLogin && lastLogout) {
+            const firstTime = new GlideDateTime(firstLogin);
+            const lastTime = new GlideDateTime(lastLogout);
+            const totalMs = lastTime.getNumericValue() - firstTime.getNumericValue();
+            totalHours = totalMs / (1000 * 60 * 60); // Convert to hours
+        }
+        
+        summaryGr.setValue('total_hours', totalHours.toFixed(2));
+        summaryGr.setValue('break_hours', (totalBreakMinutes / 60).toFixed(2));
+        summaryGr.setValue('working_hours', (totalHours - (totalBreakMinutes / 60)).toFixed(2));
+        summaryGr.setValue('no_of_breaks', breakCount);
+        summaryGr.setValue('is_present', firstLogin ? true : false);
+        
+        // Determine status
+        const currentUserGr = new GlideRecord('sys_user');
+        if (currentUserGr.get(userId)) {
+            const userStatus = currentUserGr.getValue('x_1599224_smart_of_login_status');
+            summaryGr.setValue('login_status', userStatus || 'logout');
+        }
+        
+        if (isNew) {
+            summaryGr.insert();
+        } else {
+            summaryGr.update();
+        }
+        
+    } catch (error) {
+        gs.error('Error updating daily summary: ' + error.message);
+    }
+}
+
+export function updateUserStatusFields(userId, status, workLocation) {
+    try {
+        const userGr = new GlideRecord('sys_user');
+        if (userGr.get(userId)) {
+            const now = new GlideDateTime().getDisplayValue();
+            
+            userGr.setValue('x_1599224_smart_of_login_status', status);
+            
+            if (workLocation) {
+                userGr.setValue('x_1599224_smart_of_work_location', workLocation);
+            }
+            
+            // Update first login and last logout times
+            const today = new GlideDateTime().getDisplayValueInternal().substr(0, 10);
+            
+            if (status === 'online') {
+                // Check if this is first login of the day
+                if (!userGr.getValue('x_1599224_smart_of_first_login') || 
+                    !userGr.getValue('x_1599224_smart_of_first_login').startsWith(today)) {
+                    userGr.setValue('x_1599224_smart_of_first_login', now);
+                }
+            } else if (status === 'logout') {
+                userGr.setValue('x_1599224_smart_of_last_logout', now);
+            } else if (status === 'break') {
+                // Increment break count
+                const currentBreaks = parseInt(userGr.getValue('x_1599224_smart_of_no_of_breaks') || '0');
+                userGr.setValue('x_1599224_smart_of_no_of_breaks', currentBreaks + 1);
+            }
+            
+            userGr.update();
+            
+            // Update daily summary
+            updateDailySummary(userId, today);
+        }
+    } catch (error) {
+        gs.error('Error updating user status fields: ' + error.message);
+    }
+}
+
+export function checkMidnightLogout() {
+    try {
+        // Find all users who are still logged in
+        const userGr = new GlideRecord('sys_user');
+        userGr.addQuery('x_1599224_smart_of_login_status', 'IN', 'online,break');
+        userGr.query();
+        
+        while (userGr.next()) {
+            const userId = userGr.getUniqueValue();
+            
+            // Mark as absent and logout
+            userGr.setValue('x_1599224_smart_of_login_status', 'absent');
+            userGr.setValue('x_1599224_smart_of_last_logout', new GlideDateTime().getDisplayValue());
+            userGr.update();
+            
+            // Create logout session record
+            const sessionGr = new GlideRecord('x_1599224_smart_of_user_session');
+            sessionGr.initialize();
+            sessionGr.setValue('user', userId);
+            sessionGr.setValue('login_time', new GlideDateTime().getDisplayValue());
+            sessionGr.setValue('session_type', 'logout');
+            sessionGr.setValue('is_break', false);
+            sessionGr.insert();
+            
+            // Update daily summary
+            const today = new GlideDateTime().getDisplayValueInternal().substr(0, 10);
+            updateDailySummary(userId, today);
+            
+            gs.info('Auto-logged out user ' + userId + ' at midnight');
+        }
+    } catch (error) {
+        gs.error('Error in midnight logout check: ' + error.message);
+    }
+}]]></content>
+        <external_source>false</external_source>
+        <path>x_1599224_smart_of/x-1599224-smart-office/1.0.0/src/server/attendance-utils.js</path>
+        <sys_class_name>sys_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-28 12:44:34</sys_created_on>
+        <sys_id>d6ab0e1d013f4806993a77dbc6198066</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1599224_smart_of/x-1599224-smart-office/1.0.0/src/server/attendance-utils.js</sys_name>
+        <sys_package display_value="Smart Office" source="x_1599224_smart_of">7e3affeac3303210994b7b2ed4013122</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Office">7e3affeac3303210994b7b2ed4013122</sys_scope>
+        <sys_update_name>sys_module_d6ab0e1d013f4806993a77dbc6198066</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-28 12:44:34</sys_updated_on>
+    </sys_module>
+</record_update>

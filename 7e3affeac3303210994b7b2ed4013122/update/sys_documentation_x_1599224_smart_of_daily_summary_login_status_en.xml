@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="login_status" label="Login Status" language="en" table="x_1599224_smart_of_daily_summary">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>login_status</element>
+            <help/>
+            <hint/>
+            <label>Login Status</label>
+            <language>en</language>
+            <name>x_1599224_smart_of_daily_summary</name>
+            <plural>Login Status</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-10-28 12:44:25</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Login Status</sys_name>
+            <sys_package display_value="Smart Office" source="x_1599224_smart_of">7e3affeac3303210994b7b2ed4013122</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Smart Office">7e3affeac3303210994b7b2ed4013122</sys_scope>
+            <sys_update_name>sys_documentation_x_1599224_smart_of_daily_summary_login_status_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-10-28 12:44:25</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

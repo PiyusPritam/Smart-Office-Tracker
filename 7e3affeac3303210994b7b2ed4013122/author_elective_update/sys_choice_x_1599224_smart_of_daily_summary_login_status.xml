@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="login_status" table="x_1599224_smart_of_daily_summary" version="3">
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>login_status</element>
+            <name>x_1599224_smart_of_daily_summary</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-10-28 12:44:25</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>login_status</sys_name>
+            <sys_package display_value="Smart Office" source="x_1599224_smart_of">7e3affeac3303210994b7b2ed4013122</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Smart Office">7e3affeac3303210994b7b2ed4013122</sys_scope>
+            <sys_update_name>sys_choice_x_1599224_smart_of_daily_summary_login_status</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-10-28 12:44:25</sys_updated_on>
+        </sys_choice_set>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>login_status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Online</label>
+            <language>en</language>
+            <name>x_1599224_smart_of_daily_summary</name>
+            <sequence>0</sequence>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-10-28 12:44:25</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-10-28 12:44:25</sys_updated_on>
+            <value>online</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>login_status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>On break</label>
+            <language>en</language>
+            <name>x_1599224_smart_of_daily_summary</name>
+            <sequence>1</sequence>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-10-28 12:44:25</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-10-28 12:44:25</sys_updated_on>
+            <value>break</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>login_status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Leave</label>
+            <language>en</language>
+            <name>x_1599224_smart_of_daily_summary</name>
+            <sequence>2</sequence>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-10-28 12:44:25</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-10-28 12:44:25</sys_updated_on>
+            <value>leave</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>login_status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Logout</label>
+            <language>en</language>
+            <name>x_1599224_smart_of_daily_summary</name>
+            <sequence>3</sequence>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-10-28 12:44:25</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-10-28 12:44:25</sys_updated_on>
+            <value>logout</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>login_status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Absent</label>
+            <language>en</language>
+            <name>x_1599224_smart_of_daily_summary</name>
+            <sequence>4</sequence>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-10-28 12:44:25</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-10-28 12:44:25</sys_updated_on>
+            <value>absent</value>
+        </sys_choice>
+    </sys_choice>
+</record_update>

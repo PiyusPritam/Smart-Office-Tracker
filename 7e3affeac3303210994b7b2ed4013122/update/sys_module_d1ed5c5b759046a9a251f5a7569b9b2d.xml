@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_module">
+    <sys_module action="INSERT_OR_UPDATE">
+        <content><![CDATA[{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "version": 1,
+  "serialNumber": "urn:uuid:6e40b778-fd64-4031-be19-cbb669e0f5ac",
+  "metadata": {
+    "timestamp": "2025-10-28T13:24:13.988Z",
+    "tools": {
+      "components": [
+        {
+          "type": "library",
+          "name": "sdk-build-plugins",
+          "group": "@servicenow",
+          "version": "4.0.2",
+          "author": "ServiceNow"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "name": "x-1599224-smart-office",
+      "version": "1.0.0",
+      "bom-ref": "pkg:servicenow/x-1599224-smart-office@1.0.0?sys_scope_id=7e3affeac3303210994b7b2ed4013122",
+      "description": "[BUILD AGENT GENERATED]:  A comprehensive attendance tracking system that monitors user login/logout sessions, breaks, daily summaries, shift management, and leave tracking with a modern responsive UI",
+      "licenses": [
+        {
+          "license": {
+            "name": "UNLICENSED"
+          }
+        }
+      ],
+      "purl": "pkg:servicenow/x-1599224-smart-office@1.0.0?sys_scope_id=7e3affeac3303210994b7b2ed4013122"
+    }
+  },
+  "components": [],
+  "dependencies": [
+    {
+      "ref": "pkg:servicenow/x-1599224-smart-office@1.0.0?sys_scope_id=7e3affeac3303210994b7b2ed4013122"
+    }
+  ]
+}]]></content>
+        <external_source>false</external_source>
+        <path>x_1599224_smart_of/x-1599224-smart-office/1.0.0/bom.json</path>
+        <sys_class_name>sys_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-28 12:44:34</sys_created_on>
+        <sys_id>d1ed5c5b759046a9a251f5a7569b9b2d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1599224_smart_of/x-1599224-smart-office/1.0.0/bom.json</sys_name>
+        <sys_package display_value="Smart Office" source="x_1599224_smart_of">7e3affeac3303210994b7b2ed4013122</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Office">7e3affeac3303210994b7b2ed4013122</sys_scope>
+        <sys_update_name>sys_module_d1ed5c5b759046a9a251f5a7569b9b2d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-28 12:44:34</sys_updated_on>
+    </sys_module>
+</record_update>

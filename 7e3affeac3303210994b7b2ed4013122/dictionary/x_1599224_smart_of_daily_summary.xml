@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element audit="true" db_object_id="486e7326c3703210994b7b2ed4013170" label="Daily Summary" max_length="40" name="x_1599224_smart_of_daily_summary" type="collection">
+        <element default="0" label="Number of Breaks" max_length="40" name="no_of_breaks" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Last Logout" max_length="40" name="last_logout" type="glide_date_time"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Work Location" max_length="40" name="work_location" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Work from Home" sequence="1" value="home"/>
+                <element inactive_on_update="false" label="Office-In" sequence="0" value="office"/>
+            </choice>
+        </element>
+        <element attributes="encode_utf8=false" label="User" mandatory="true" max_length="32" name="user" reference="sys_user" type="reference"/>
+        <element label="Total Hours" max_length="20" name="total_hours" read_only="true" type="decimal"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" default="logout" label="Login Status" max_length="40" name="login_status" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Logout" sequence="3" value="logout"/>
+                <element inactive_on_update="false" label="Online" sequence="0" value="online"/>
+                <element inactive_on_update="false" label="Absent" sequence="4" value="absent"/>
+                <element inactive_on_update="false" label="On break" sequence="1" value="break"/>
+                <element inactive_on_update="false" label="Leave" sequence="2" value="leave"/>
+            </choice>
+        </element>
+        <element attributes="encode_utf8=false" label="Shift" max_length="32" name="shift" reference="x_1599224_smart_of_shifts" type="reference"/>
+        <element label="Is Present" max_length="40" name="is_present" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true" label="Date" mandatory="true" max_length="40" name="date" type="glide_date"/>
+        <element label="Working Hours" max_length="20" name="working_hours" read_only="true" type="decimal"/>
+        <element attributes="edge_encryption_enabled=true" label="First Login" max_length="40" name="first_login" type="glide_date_time"/>
+        <element default="0" label="Break Hours" max_length="20" name="break_hours" type="decimal"/>
+        <index name="index">
+            <element name="shift"/>
+        </index>
+        <index name="index2">
+            <element name="user"/>
+        </index>
+    </element>
+</database>

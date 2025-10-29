@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element audit="true" db_object_id="586eb326c3703210994b7b2ed4013125" label="Leaves" max_length="40" name="x_1599224_smart_of_leaves" type="collection">
+        <element attributes="encode_utf8=false" label="User" mandatory="true" max_length="32" name="user" reference="sys_user" type="reference"/>
+        <element label="Days Requested" max_length="40" name="days_requested" read_only="true" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Approval Date" max_length="40" name="approval_date" type="glide_date"/>
+        <element attributes="edge_encryption_enabled=true" label="Comments" max_length="1000" name="comments" type="string"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Leave Type" mandatory="true" max_length="40" name="leave_type" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Wedding Leave" sequence="2" value="wedding"/>
+                <element inactive_on_update="false" label="Sick Leave" sequence="3" value="sick"/>
+                <element inactive_on_update="false" label="Earned Leave" sequence="0" value="earned"/>
+                <element inactive_on_update="false" label="Maternity Leave" sequence="1" value="maternity"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" label="Reason" mandatory="true" max_length="500" name="reason" type="string"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" default="pending" label="Status" max_length="40" name="status" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Rejected" sequence="2" value="rejected"/>
+                <element inactive_on_update="false" label="Pending" sequence="0" value="pending"/>
+                <element inactive_on_update="false" label="Approved" sequence="1" value="approved"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" label="Start Date" mandatory="true" max_length="40" name="start_date" type="glide_date"/>
+        <element attributes="edge_encryption_enabled=true" label="End Date" mandatory="true" max_length="40" name="end_date" type="glide_date"/>
+        <element attributes="encode_utf8=false" label="Approver" max_length="32" name="approver" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="approver"/>
+        </index>
+        <index name="index2">
+            <element name="user"/>
+        </index>
+    </element>
+</database>
