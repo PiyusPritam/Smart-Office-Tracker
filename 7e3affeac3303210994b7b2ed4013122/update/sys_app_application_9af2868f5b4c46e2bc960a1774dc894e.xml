@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application">
+    <sys_app_application action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category display_value="Smart Office">e0b46ceeedde43c48080de35f0d2c78a</category>
+        <description>Comprehensive attendance tracking system</description>
+        <device_type>browser</device_type>
+        <hint>Smart Office Attendance Tracker</hint>
+        <name/>
+        <order>10</order>
+        <roles/>
+        <sys_class_name>sys_app_application</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-28 12:44:34</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>9af2868f5b4c46e2bc960a1774dc894e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Smart Office</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Smart Office" source="x_1599224_smart_of">7e3affeac3303210994b7b2ed4013122</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Office">7e3affeac3303210994b7b2ed4013122</sys_scope>
+        <sys_update_name>sys_app_application_9af2868f5b4c46e2bc960a1774dc894e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-28 12:44:34</sys_updated_on>
+        <title>Smart Office</title>
+        <view_name/>
+    </sys_app_application>
+</record_update>

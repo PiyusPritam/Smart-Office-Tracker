@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_1599224_smart_of_leaves</collection>
+        <condition>current.start_date.changes() || current.end_date.changes()</condition>
+        <description>Automatically calculates business days for leave requests excluding weekends</description>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Calculate Business Days for Leave</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[
+        try {
+            // Calculate business days excluding weekends
+            function calculateBusinessDays(startDateStr, endDateStr) {
+                if (!startDateStr || !endDateStr) return 0;
+                
+                var startDate = new GlideDateTime(startDateStr);
+                var endDate = new GlideDateTime(endDateStr);
+                var businessDays = 0;
+                
+                var currentDate = new GlideDateTime(startDate);
+                
+                while (currentDate.compareTo(endDate) <= 0) {
+                    var dayOfWeek = currentDate.getDayOfWeek();
+                    // Monday = 2, Tuesday = 3, ..., Friday = 6, Saturday = 7, Sunday = 1
+                    if (dayOfWeek >= 2 && dayOfWeek <= 6) {
+                        businessDays++;
+                    }
+                    currentDate.addDaysLocalTime(1);
+                }
+                
+                return businessDays;
+            }
+            
+            var startDate = current.getValue('start_date');
+            var endDate = current.getValue('end_date');
+            
+            if (startDate && endDate) {
+                var businessDays = calculateBusinessDays(startDate, endDate);
+                current.setValue('days_requested', businessDays);
+                
+                gs.info('Calculated business days for leave: ' + businessDays + ' (excluding weekends)');
+            }
+        } catch (error) {
+            gs.error('Error calculating business days for leave: ' + error.message);
+        }
+    ]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-28 13:16:55</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>44f123ef732f44e6963823e120865a55</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Calculate Business Days for Leave</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Smart Office" source="x_1599224_smart_of">7e3affeac3303210994b7b2ed4013122</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Office">7e3affeac3303210994b7b2ed4013122</sys_scope>
+        <sys_update_name>sys_script_44f123ef732f44e6963823e120865a55</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-28 13:16:55</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=44f123ef732f44e6963823e120865a55"/>
+</record_update>

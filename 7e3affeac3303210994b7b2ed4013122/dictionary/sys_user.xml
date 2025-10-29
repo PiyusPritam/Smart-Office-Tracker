@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="all_tables.text_index_translations=true,allow_data_replicate=true,display_image=photo,global_search_config_handler=UserConfig,ih_process_sync_enabled=true,iterativeDelete=true,kagami_csindex_enabled=true,metadata_link_exempt=true,ref_ac_columns=email,ref_ac_columns_search=true,ref_ac_order_by=name,ref_auto_completer=AJAXTableCompleter,slushbucket_omit_embedded=true" create_roles="user_admin" db_object_id="5abae932f13322108bb2efdbde054cb5" defaultsort="-1" dynamic_creation_script="dynamicUserCreation(current, value);" label="User" max_length="40" name="sys_user" text_index="true" type="collection">
+        <element default="20" label="Leaves Allocated" name="x_1599224_smart_of_leaves_allocated" type="integer"/>
+        <element label="Work Location" max_length="40" name="x_1599224_smart_of_work_location" type="string"/>
+        <element label="Login Status" max_length="40" name="x_1599224_smart_of_login_status" type="string"/>
+        <element label="Last Logout" name="x_1599224_smart_of_last_logout" type="datetime"/>
+        <element label="Number of Breaks" name="x_1599224_smart_of_no_of_breaks" type="integer"/>
+        <element label="Shift" name="x_1599224_smart_of_shift" reference="x_1599224_smart_of_shifts" type="reference"/>
+        <element label="Break Hours" name="x_1599224_smart_of_break_hours" type="decimal"/>
+        <element label="Working Hours" name="x_1599224_smart_of_working_hours" type="decimal"/>
+        <element label="Total Hours" name="x_1599224_smart_of_total_hours" type="decimal"/>
+        <element label="First Login" name="x_1599224_smart_of_first_login" type="datetime"/>
+        <index name="index">
+            <element name="x_1599224_smart_of_shift"/>
+        </index>
+    </element>
+</database>

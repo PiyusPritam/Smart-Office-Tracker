@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_1599224_smart_of_user_session</collection>
+        <condition/>
+        <description>Updates sys_user attendance fields when user sessions are created or updated</description>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Update User Status from Session</name>
+        <order>200</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[
+        try {
+            // Get user ID and status from the user session record
+            var userId = current.getValue('user');
+            var sessionType = current.getValue('session_type');
+            var workLocation = current.getValue('work_location');
+            
+            // Map session type to user status
+            var status = 'logout';
+            if (sessionType === 'login') {
+                status = 'online';
+            } else if (sessionType === 'break_start') {
+                status = 'break';
+            } else if (sessionType === 'break_end') {
+                status = 'online';
+            } else if (sessionType === 'logout') {
+                status = 'logout';
+            }
+            
+            // Update user status fields
+            var userGr = new GlideRecord('sys_user');
+            if (userGr.get(userId)) {
+                var now = new GlideDateTime().getDisplayValue();
+                
+                userGr.setValue('x_1599224_smart_of_login_status', status);
+                
+                if (workLocation) {
+                    userGr.setValue('x_1599224_smart_of_work_location', workLocation);
+                }
+                
+                // Update first login and last logout times
+                var today = new GlideDateTime().getDisplayValueInternal().substr(0, 10);
+                
+                if (status === 'online') {
+                    // Check if this is first login of the day
+                    if (!userGr.getValue('x_1599224_smart_of_first_login') || 
+                        !userGr.getValue('x_1599224_smart_of_first_login').startsWith(today)) {
+                        userGr.setValue('x_1599224_smart_of_first_login', now);
+                    }
+                } else if (status === 'logout') {
+                    userGr.setValue('x_1599224_smart_of_last_logout', now);
+                } else if (status === 'break') {
+                    // Increment break count
+                    var currentBreaks = parseInt(userGr.getValue('x_1599224_smart_of_no_of_breaks') || '0');
+                    userGr.setValue('x_1599224_smart_of_no_of_breaks', currentBreaks + 1);
+                }
+                
+                userGr.update();
+            }
+        } catch (error) {
+            gs.error('Error updating user status: ' + error.message);
+        }
+    ]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-28 12:44:34</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>47b58e3d64474441aeeb7582b87039c9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Update User Status from Session</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Smart Office" source="x_1599224_smart_of">7e3affeac3303210994b7b2ed4013122</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Office">7e3affeac3303210994b7b2ed4013122</sys_scope>
+        <sys_update_name>sys_script_47b58e3d64474441aeeb7582b87039c9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-28 12:44:34</sys_updated_on>
+        <template/>
+        <when>after</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=47b58e3d64474441aeeb7582b87039c9"/>
+</record_update>

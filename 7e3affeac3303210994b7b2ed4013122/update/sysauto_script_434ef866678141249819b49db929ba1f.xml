@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <advanced>false</advanced>
+        <business_calendar/>
+        <condition/>
+        <conditional>false</conditional>
+        <entered_run_end/>
+        <entered_run_start/>
+        <entered_time/>
+        <max_drift/>
+        <name>Midnight Auto Logout</name>
+        <offset/>
+        <offset_type/>
+        <repeat_every/>
+        <run_as/>
+        <run_as_tz/>
+        <run_dayofmonth/>
+        <run_dayofweek/>
+        <run_daysofweek/>
+        <run_end/>
+        <run_month/>
+        <run_period/>
+        <run_start/>
+        <run_time>2025-10-28 13:24:45</run_time>
+        <run_type>daily</run_type>
+        <run_weekinmonth/>
+        <script><![CDATA[
+            try {
+                // Find all users who are still logged in
+                var userGr = new GlideRecord('sys_user');
+                userGr.addQuery('x_1599224_smart_of_login_status', 'IN', 'online,break');
+                userGr.query();
+                
+                while (userGr.next()) {
+                    var userId = userGr.getUniqueValue();
+                    
+                    // Mark as absent and logout
+                    userGr.setValue('x_1599224_smart_of_login_status', 'absent');
+                    userGr.setValue('x_1599224_smart_of_last_logout', new GlideDateTime().getDisplayValue());
+                    userGr.update();
+                    
+                    // Create logout session record
+                    var sessionGr = new GlideRecord('x_1599224_smart_of_user_session');
+                    sessionGr.initialize();
+                    sessionGr.setValue('user', userId);
+                    sessionGr.setValue('login_time', new GlideDateTime().getDisplayValue());
+                    sessionGr.setValue('session_type', 'logout');
+                    sessionGr.setValue('is_break', false);
+                    sessionGr.insert();
+                    
+                    gs.info('Auto-logged out user ' + userId + ' at midnight');
+                }
+            } catch (error) {
+                gs.error('Error in midnight logout check: ' + error.message);
+            }
+        ]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-28 12:44:35</sys_created_on>
+        <sys_id>434ef866678141249819b49db929ba1f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Midnight Auto Logout</sys_name>
+        <sys_package display_value="Smart Office" source="x_1599224_smart_of">7e3affeac3303210994b7b2ed4013122</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Office">7e3affeac3303210994b7b2ed4013122</sys_scope>
+        <sys_update_name>sysauto_script_434ef866678141249819b49db929ba1f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-28 12:44:35</sys_updated_on>
+        <time_zone/>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>
