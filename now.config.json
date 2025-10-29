@@ -1,0 +1,6 @@
+{
+  "scope": "x_994053_smart_off",
+  "scopeId": "40888c4747703210be42a3bf016d4305",
+  "name": "Smart Office",
+  "tsconfigPath": "./src/server/tsconfig.json"
+}
