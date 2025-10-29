@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element audit="true" db_object_id="5c6eb326c3703210994b7b2ed4013166" label="Shifts" max_length="40" name="x_1599224_smart_of_shifts" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Shift Name" mandatory="true" max_length="100" name="name" type="string"/>
+        <element default="true" label="Active" max_length="40" name="active" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true" label="Start Time" mandatory="true" max_length="10" name="start_time" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="End Time" mandatory="true" max_length="10" name="end_time" type="string"/>
+        <element default="8" label="Working Hours" mandatory="true" max_length="40" name="working_hours" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Description" max_length="500" name="description" type="string"/>
+    </element>
+</database>

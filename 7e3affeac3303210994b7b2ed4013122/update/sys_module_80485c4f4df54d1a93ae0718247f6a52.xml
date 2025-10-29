@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_module">
+    <sys_module action="INSERT_OR_UPDATE">
+        <content><![CDATA[import { updateUserStatusFields } from '../attendance-utils.js';
+
+export function userStatusUpdate(current, previous) {
+    // Get user ID and status from the user session record
+    const userId = current.getValue('user');
+    const sessionType = current.getValue('session_type');
+    const workLocation = current.getValue('work_location');
+    
+    // Map session type to user status
+    let status = 'logout';
+    if (sessionType === 'login') {
+        status = 'online';
+    } else if (sessionType === 'break_start') {
+        status = 'break';
+    } else if (sessionType === 'break_end') {
+        status = 'online';
+    } else if (sessionType === 'logout') {
+        status = 'logout';
+    }
+    
+    updateUserStatusFields(userId, status, workLocation);
+}]]></content>
+        <external_source>false</external_source>
+        <path>x_1599224_smart_of/x-1599224-smart-office/1.0.0/src/server/business-rules/user-status-update.js</path>
+        <sys_class_name>sys_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-10-28 12:44:34</sys_created_on>
+        <sys_id>80485c4f4df54d1a93ae0718247f6a52</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1599224_smart_of/x-1599224-smart-office/1.0.0/src/server/business-rules/user-status-update.js</sys_name>
+        <sys_package display_value="Smart Office" source="x_1599224_smart_of">7e3affeac3303210994b7b2ed4013122</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Office">7e3affeac3303210994b7b2ed4013122</sys_scope>
+        <sys_update_name>sys_module_80485c4f4df54d1a93ae0718247f6a52</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-10-28 12:44:34</sys_updated_on>
+    </sys_module>
+</record_update>
